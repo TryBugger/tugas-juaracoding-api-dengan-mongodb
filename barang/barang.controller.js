@@ -1,3 +1,4 @@
+const { Pagination } = require("../libs/lib.common");
 const { BarangModel } = require("./barang.model");
 const { BarangSearch, BarangFilter } = require("./barang.search");
 
@@ -6,12 +7,13 @@ async function BarangList(req, res) {
     const result = BarangModel.find();
     // const data = await BarangSearch(req, result);
     const search = BarangSearch(req, result);
-    const filter = await BarangFilter(req, search)
-
+    // const filter = await BarangFilter(req, search)
+    const filter = BarangFilter(req, search);
+    const paging = await Pagination(req, res, filter)
 
     // const data = await BarangModel.find();
     
-    return res.status(200).json(filter)
+    return res.status(200).json(paging)
 
   } catch (error) {
     console.log(error);
