@@ -1,9 +1,17 @@
 const { BarangModel } = require("./barang.model");
+const { BarangSearch, BarangFilter } = require("./barang.search");
 
 async function BarangList(req, res) {
   try {
-    const data = await BarangModel.find();
-    return res.status(200).json(data)
+    const result = BarangModel.find();
+    // const data = await BarangSearch(req, result);
+    const search = BarangSearch(req, result);
+    const filter = await BarangFilter(req, search)
+
+
+    // const data = await BarangModel.find();
+    
+    return res.status(200).json(filter)
 
   } catch (error) {
     console.log(error);
